@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @RequestMapping("/films")
 public class FilmController extends Controller<Film> {
 
-    public static LocalDate MIN_RELEASE_DATE = LocalDate.parse(System.getenv("MIN_RELEASE_DATE"));
+    public static LocalDate MIN_RELEASE_DATE = LocalDate.parse("1895-12-28");
 
 
     @PostMapping
