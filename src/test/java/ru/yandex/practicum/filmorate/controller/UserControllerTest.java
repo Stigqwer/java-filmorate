@@ -9,17 +9,20 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserControllerTest {
-    UserController userController;
+    private final UserController userController = new UserController();
 
     @Test
-    public void validationTest(){
-        userController = new UserController();
-        User user1 = new User(1,"stigqwer@gmail.com", "stigqwer", "Максим",
-                LocalDate.of(1990,11,4));
+    public void testOk() {
+        User user1 = new User(1, "stigqwer@gmail.com", "stigqwer", "Максим",
+                LocalDate.of(1990, 11, 4));
 
         assertTrue(userController.isValidationValues(user1));
+    }
 
-        user1.setName("");
+    @Test
+    public void validationTest() {
+        User user1 = new User(1, "stigqwer@gmail.com", "stigqwer", "",
+                LocalDate.of(1990, 11, 4));
         userController.isValidationValues(user1);
 
         assertEquals("stigqwer", user1.getName());
@@ -28,7 +31,7 @@ public class UserControllerTest {
         ValidationException exception = assertThrows(ValidationException.class,
                 () -> userController.isValidationValues(user1));
 
-        assertEquals("Логин не может содержать пробелы", exception.getMessage());
+        assertEquals("Login must be didn't have a blank char", exception.getMessage());
     }
 
 

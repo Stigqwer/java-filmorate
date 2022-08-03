@@ -6,51 +6,42 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @Slf4j
 @RequestMapping("/users")
-public class UserController {
-
-    private final Map<Integer, User> users = new HashMap<>();
-
-    @GetMapping
-    public List<User> findAll() {
-        return new ArrayList<>(users.values());
-    }
+public class UserController extends Controller<User> {
 
     @PostMapping
+    @Override
     public User create(@Valid @RequestBody User user) {
-        isValidationValues(user);
-        user.setId(users.size()+1);
-        users.put(user.getId(),user);
-        log.info("User успешно добавлен");
+        super.create(user);
+        user.setId(id++);
+        data.put(user.getId(), user);
+        log.info("User created");
         return user;
     }
 
     @PutMapping
+    @Override
     public User update(@Valid @RequestBody User user) {
-        isValidationValues(user);
-        if(users.containsKey(user.getId())){
-            users.put(user.getId(),user);
-            log.info("User успешно обновлен");
+        super.create(user);
+        if (data.containsKey(user.getId())) {
+            data.put(user.getId(), user);
+            log.info("User updated");
             return user;
         } else {
-            log.error("Передан не верный id");
-            throw new ValidationException("Передан не верный id");
+            throw new ValidationException("Not have this id on server");
         }
     }
 
-    boolean isValidationValues(User user){
-        if(user.getLogin().contains(" ")){
-            throw new ValidationException("Логин не может содержать пробелы");
+    @Override
+    boolean isValidationValues(User user) {
+        if (user.getLogin().contains(" ")) {
+            throw new ValidationException("Login must be didn't have a blank char");
         }
-        if(user.getName() == null || user.getName().isBlank()){
-            log.info("Имя не задано. Присвоено имя в соответствии с логином");
+        if (user.getName() == null || user.getName().isBlank()) {
+            log.info("Name isEmpty. Now Name = Login");
             user.setName(user.getLogin());
         }
         return true;
