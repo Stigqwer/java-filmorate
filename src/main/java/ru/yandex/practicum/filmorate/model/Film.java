@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 public class Film {
-    public final static int MAX_SIZE_DESCRIPTION = 200;
+    public static final int MAX_SIZE_DESCRIPTION = 200;
     private int id;
     @NotEmpty
     private String name;
