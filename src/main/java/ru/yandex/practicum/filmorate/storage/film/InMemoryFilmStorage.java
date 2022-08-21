@@ -44,10 +44,11 @@ public class InMemoryFilmStorage implements FilmStorage{
         }
     }
 
-    private void isValidationValues(Film film) {
+    public boolean isValidationValues(Film film) {
         if (film.getReleaseDate() != null
                 && film.getReleaseDate().isBefore(MIN_RELEASE_DATE)) {
             throw new ValidationException("ReleaseDate before 1895-12-28");
         }
+        return true;
     }
 }

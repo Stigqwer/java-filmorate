@@ -42,7 +42,7 @@ public class InMemoryUserStorage implements UserStorage {
         }
     }
 
-    private void isValidationValues(User user) {
+    public boolean isValidationValues(User user) {
         if (user.getLogin().contains(" ")) {
             throw new ValidationException("Login must be didn't have a blank char");
         }
@@ -50,5 +50,6 @@ public class InMemoryUserStorage implements UserStorage {
             log.info("Name isEmpty. Now Name = Login");
             user.setName(user.getLogin());
         }
+        return true;
     }
 }

@@ -11,5 +11,5 @@ public interface UserStorage {
 
     User update(User user);
 
-
+    boolean isValidationValues(User user);
 }
