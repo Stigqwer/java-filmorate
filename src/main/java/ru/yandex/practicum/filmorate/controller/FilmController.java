@@ -46,4 +46,27 @@ public class FilmController {
             return film;
         }
     }
+
+    @PutMapping("/{id}/like/{userId}")
+    public void addLike(@PathVariable int id, @PathVariable int userId){
+        if(filmService.getFilm(id) == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } else{
+            filmService.addLike(id,userId);
+        }
+    }
+
+    @DeleteMapping("/{id}/like/{userId}")
+    public void deleteLike(@PathVariable int id, @PathVariable int userId){
+        if(filmService.getFilm(id) == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } else{
+            filmService.deleteLike(id,userId);
+        }
+    }
+
+    @GetMapping("/popular")
+    public List<Film> getPopularFilm(@RequestParam(defaultValue = "10") int count){
+        return filmService.getPopularFilm(count);
+    }
 }
