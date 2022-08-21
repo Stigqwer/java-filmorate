@@ -28,4 +28,8 @@ public class UserService {
     public User update(User user) {
         return userStorage.update(user);
     }
+
+    public User getUser(int id){
+        return userStorage.getUser(id);
+    }
 }

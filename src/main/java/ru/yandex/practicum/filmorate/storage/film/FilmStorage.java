@@ -12,4 +12,6 @@ public interface FilmStorage {
 
     Film update(Film film);
     boolean isValidationValues(Film film);
+
+    Film getFilm(int id);
 }

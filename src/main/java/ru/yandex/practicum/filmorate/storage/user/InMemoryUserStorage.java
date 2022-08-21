@@ -42,6 +42,11 @@ public class InMemoryUserStorage implements UserStorage {
         }
     }
 
+    @Override
+    public User getUser(int id) {
+        return users.get(id);
+    }
+
     public boolean isValidationValues(User user) {
         if (user.getLogin().contains(" ")) {
             throw new ValidationException("Login must be didn't have a blank char");

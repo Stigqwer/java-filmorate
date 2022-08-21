@@ -11,5 +11,7 @@ public interface UserStorage {
 
     User update(User user);
 
+    User getUser(int id);
+
     boolean isValidationValues(User user);
 }

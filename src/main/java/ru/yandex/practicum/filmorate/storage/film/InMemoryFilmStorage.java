@@ -44,6 +44,11 @@ public class InMemoryFilmStorage implements FilmStorage{
         }
     }
 
+    @Override
+    public Film getFilm(int id) {
+        return films.get(id);
+    }
+
     public boolean isValidationValues(Film film) {
         if (film.getReleaseDate() != null
                 && film.getReleaseDate().isBefore(MIN_RELEASE_DATE)) {

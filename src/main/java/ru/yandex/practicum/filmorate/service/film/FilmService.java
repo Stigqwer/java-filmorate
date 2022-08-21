@@ -28,4 +28,8 @@ public class FilmService {
     public Film update(Film film) {
         return filmStorage.update(film);
     }
+
+    public Film getFilm(int id){
+        return filmStorage.getFilm(id);
+    }
 }
