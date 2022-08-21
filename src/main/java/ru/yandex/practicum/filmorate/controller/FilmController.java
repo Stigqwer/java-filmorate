@@ -34,6 +34,9 @@ public class FilmController {
 
     @PutMapping
     public Film update(@Valid @RequestBody Film film) {
+        if(film.getId() < 1){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
         return filmService.update(film);
     }
 
@@ -58,7 +61,7 @@ public class FilmController {
 
     @DeleteMapping("/{id}/like/{userId}")
     public void deleteLike(@PathVariable int id, @PathVariable int userId){
-        if(filmService.getFilm(id) == null){
+        if(filmService.getFilm(id) == null || userId < 1){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } else{
             filmService.deleteLike(id,userId);

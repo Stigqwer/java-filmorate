@@ -35,6 +35,9 @@ public class UserController {
 
     @PutMapping
     public User update(@Valid @RequestBody User user) {
+        if(user.getId() < 1){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
         return userService.update(user);
     }
 
