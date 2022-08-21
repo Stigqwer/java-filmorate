@@ -3,13 +3,14 @@ package ru.yandex.practicum.filmorate.controller;
 import org.junit.Test;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserControllerTest {
-    private final UserController userController = new UserController();
+    private final UserController userController = new UserController(new InMemoryUserStorage());
 
     @Test
     public void testOk() {

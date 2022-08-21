@@ -1,50 +1,37 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @Slf4j
 @RequestMapping("/films")
-public class FilmController extends Controller<Film> {
+public class FilmController {
+    private final FilmStorage filmStorage;
 
-    public static final LocalDate MIN_RELEASE_DATE = LocalDate.parse("1895-12-28");
+    @Autowired
+    public FilmController(FilmStorage filmStorage) {
+        this.filmStorage = filmStorage;
+    }
 
+    @GetMapping
+    public List<Film> findAll() {
+        return filmStorage.findAll();
+    }
 
     @PostMapping
-    @Override
     public Film create(@Valid @RequestBody Film film) {
-        super.create(film);
-        film.setId(id++);
-        data.put(film.getId(), film);
-        log.info("film created");
-        return film;
+        return filmStorage.create(film);
     }
 
     @PutMapping
-    @Override
     public Film update(@Valid @RequestBody Film film) {
-        super.update(film);
-        if (data.containsKey(film.getId())) {
-            data.put(film.getId(), film);
-            log.info("film updated");
-            return film;
-        } else {
-            throw new ValidationException("Not have this id on server");
-        }
-    }
-
-    @Override
-    boolean isValidationValues(Film film) {
-        if (film.getReleaseDate() != null
-                && film.getReleaseDate().isBefore(MIN_RELEASE_DATE)) {
-            throw new ValidationException("ReleaseDate before 1895-12-28");
-        }
-        return true;
+        return filmStorage.update(film);
     }
 }
