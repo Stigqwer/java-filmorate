@@ -5,9 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.service.user.UserService;
+import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,55 +34,37 @@ public class UserController {
 
     @PutMapping
     public User update(@Valid @RequestBody User user) {
-        if(user.getId() < 1){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+
         return userService.update(user);
     }
 
     @GetMapping("/{id}")
     public User getUser(@PathVariable int id) {
-        User user = userService.getUser(id);
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        } else {
-            return user;
-        }
+        return userService.getUser(id);
     }
 
     @PutMapping("/{id}/friends/{friendId}")
-    public void addFriends(@PathVariable int id, @PathVariable int friendId){
-        if(userService.getUser(id) == null || userService.getUser(friendId) == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        } else{
-            userService.addFriend(id,friendId);
-        }
+    public void addFriends(@PathVariable int id, @PathVariable int friendId) {
+        userService.addFriend(id, friendId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
-    public void deleteFriends(@PathVariable int id, @PathVariable int friendId){
-        if(userService.getUser(id) == null || userService.getUser(friendId) == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        } else{
-            userService.deleteFriend(id,friendId);
-        }
+    public void deleteFriends(@PathVariable int id, @PathVariable int friendId) {
+        userService.deleteFriend(id, friendId);
     }
 
     @GetMapping("/{id}/friends")
-    public List<User> getFriends(@PathVariable int id){
-        if(userService.getUser(id) == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        } else{
-           return userService.getFriends(id);
-        }
+    public List<User> getFriends(@PathVariable int id) {
+        return userService.getFriends(id);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public List<User> getCommonFriends(@PathVariable int id, @PathVariable int otherId){
-        if(userService.getUser(id) == null || userService.getUser(otherId) == null){
+    public List<User> getCommonFriends(@PathVariable int id, @PathVariable int otherId) {
+        if (userService.getUser(id) == null || userService.getUser(otherId) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } else {
-            return userService.getCommonFriends(id,otherId);
+
         }
+        return userService.getCommonFriends(id, otherId);
     }
 }

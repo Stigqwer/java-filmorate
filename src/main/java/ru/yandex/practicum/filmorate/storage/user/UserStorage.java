@@ -13,5 +13,4 @@ public interface UserStorage {
 
     User getUser(int id);
 
-    boolean isValidationValues(User user);
 }
