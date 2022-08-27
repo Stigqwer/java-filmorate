@@ -23,4 +23,6 @@ public class Film {
     private LocalDate releaseDate;
     @Positive
     private int duration;
+    private final Set<String> category = new HashSet<>();
+    private String rating;
 }
