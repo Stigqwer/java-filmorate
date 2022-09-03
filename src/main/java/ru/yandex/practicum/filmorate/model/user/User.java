@@ -7,14 +7,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 public class User {
     private int id;
-    private final Map<Integer,Boolean> friends = new HashMap<>();
+    private final List<Integer> friends = new ArrayList<>();
     @Email
     @NotEmpty
     private String email;
