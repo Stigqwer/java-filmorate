@@ -47,7 +47,7 @@ public class UserService {
         }
     }
 
-    public void addFriend(int id, int friendId) {
+/*    public void addFriend(int id, int friendId) {
         User user = getUser(id);
         User friendUser = getUser(friendId);
         if (user == null || friendUser == null) {
@@ -56,9 +56,9 @@ public class UserService {
             user.getFriends().add(friendId);
             friendUser.getFriends().add(id);
         }
-    }
+    }*/
 
-    public void deleteFriend(int id, int friendId) {
+/*    public void deleteFriend(int id, int friendId) {
         User user = getUser(id);
         User friendUser = getUser(friendId);
         if (user == null || friendUser == null) {
@@ -67,9 +67,9 @@ public class UserService {
             user.getFriends().remove(id);
             friendUser.getFriends().remove(friendId);
         }
-    }
+    }*/
 
-    public List<User> getFriends(int id) {
+ /*   public List<User> getFriends(int id) {
         User user = getUser(id);
         if (user == null) {
             throw new NotFoundException("User not found");
@@ -80,9 +80,9 @@ public class UserService {
             }
             return friends;
         }
-    }
+    }*/
 
-    public List<User> getCommonFriends(int id, int otherId) {
+/*    public List<User> getCommonFriends(int id, int otherId) {
         User user = getUser(id);
         User otherUser = getUser(otherId);
         if (user == null || otherUser == null) {
@@ -99,7 +99,7 @@ public class UserService {
             }
             return commonFriends;
         }
-    }
+    }*/
 
     public boolean isValidationValues(User user) {
         if (user.getLogin().contains(" ")) {

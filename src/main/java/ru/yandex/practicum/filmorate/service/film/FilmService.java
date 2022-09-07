@@ -47,7 +47,7 @@ public class FilmService {
         }
     }
 
-    public void addLike(int id, int userId) {
+/*    public void addLike(int id, int userId) {
         Film film = getFilm(id);
         if (film == null) {
             throw new NotFoundException("Film not found");
@@ -56,23 +56,23 @@ public class FilmService {
         } else {
             film.getLike().add(userId);
         }
-    }
+    }*/
 
-    public void deleteLike(int id, int userId) {
+ /*   public void deleteLike(int id, int userId) {
         Film film = getFilm(id);
         if (film == null || userId < 1) {
             throw new NotFoundException("Film not found");
         } else {
             film.getLike().remove(userId);
         }
-    }
+    }*/
 
-    public List<Film> getPopularFilm(int count) {
+   /* public List<Film> getPopularFilm(int count) {
         return filmStorage.findAll().stream()
                 .sorted((film1, film2) -> film2.getLike().size() - film1.getLike().size())
                 .limit(count)
                 .collect(Collectors.toList());
-    }
+    }*/
 
     public boolean isValidationValues(Film film) {
         if (film.getReleaseDate() != null
