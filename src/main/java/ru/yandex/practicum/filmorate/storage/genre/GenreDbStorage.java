@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Component
-@Qualifier
 public class GenreDbStorage implements GenreStorage {
 
     private final JdbcTemplate jdbcTemplate;

@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 @Component
-@Qualifier
 public class MpaDbStorage implements MpaStorage{
 
     private final JdbcTemplate jdbcTemplate;

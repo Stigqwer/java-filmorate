@@ -80,7 +80,7 @@ public class FilmDbStorage implements FilmStorage {
         LocalDate releaseDate = rs.getDate("release_date").toLocalDate();
         int duration = rs.getInt("duration");
         Mpa mpa = mpaStorage.getMpa(rs.getInt("mpa_id"));
-        Set<Genre> genres = filmGenreStorage.findFilmGenre(id);
+        List<Genre> genres = filmGenreStorage.findFilmGenre(id);
         return new Film(id, name, description, releaseDate, duration, mpa, genres);
     }
 }
