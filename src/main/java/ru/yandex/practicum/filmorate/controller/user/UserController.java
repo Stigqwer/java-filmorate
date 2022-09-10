@@ -58,13 +58,8 @@ public class UserController {
         return userService.getFriends(id);
     }*/
 
-/*    @GetMapping("/{id}/friends/common/{otherId}")
+    @GetMapping("/{id}/friends/common/{otherId}")
     public List<User> getCommonFriends(@PathVariable int id, @PathVariable int otherId) {
-        if (userService.getUser(id) == null || userService.getUser(otherId) == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        } else {
-
-        }
         return userService.getCommonFriends(id, otherId);
-    }*/
+    }
 }

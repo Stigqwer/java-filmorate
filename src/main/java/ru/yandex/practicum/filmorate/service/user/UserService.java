@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.service.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
@@ -18,7 +19,7 @@ public class UserService {
     private int id = 1;
 
     @Autowired
-    public UserService(UserStorage userStorage) {
+    public UserService(@Qualifier("userDbStorage") UserStorage userStorage) {
         this.userStorage = userStorage;
     }
 
@@ -39,12 +40,7 @@ public class UserService {
     }
 
     public User getUser(int id) {
-        User user = userStorage.getUser(id);
-        if (user == null) {
-            throw new NotFoundException("User not found");
-        } else {
-            return user;
-        }
+        return userStorage.getUser(id);
     }
 
 /*    public void addFriend(int id, int friendId) {
@@ -82,7 +78,7 @@ public class UserService {
         }
     }*/
 
-/*    public List<User> getCommonFriends(int id, int otherId) {
+    public List<User> getCommonFriends(int id, int otherId) {
         User user = getUser(id);
         User otherUser = getUser(otherId);
         if (user == null || otherUser == null) {
@@ -99,7 +95,7 @@ public class UserService {
             }
             return commonFriends;
         }
-    }*/
+    }
 
     public boolean isValidationValues(User user) {
         if (user.getLogin().contains(" ")) {
