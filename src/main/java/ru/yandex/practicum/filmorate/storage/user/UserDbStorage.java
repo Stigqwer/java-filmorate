@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Component("userDbStorage")
-public class UserDbStorage implements UserStorage{
+public class UserDbStorage implements UserStorage {
     private final JdbcTemplate jdbcTemplate;
 
     public UserDbStorage(JdbcTemplate jdbcTemplate) {
@@ -22,7 +22,7 @@ public class UserDbStorage implements UserStorage{
     @Override
     public List<User> findAll() {
         String sql = "SELECT * FROM \"user\"";
-        return jdbcTemplate.query(sql,(rs, rowNum) -> makeUser(rs));
+        return jdbcTemplate.query(sql, (rs, rowNum) -> makeUser(rs));
     }
 
     @Override
@@ -53,19 +53,35 @@ public class UserDbStorage implements UserStorage{
     @Override
     public User getUser(int id) {
         String sql = "SELECT * FROM \"user\" WHERE user_id=?";
-        try{
-           return jdbcTemplate.queryForObject(sql,(rs, rowNum) -> makeUser(rs), id);
-        } catch (EmptyResultDataAccessException e){
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> makeUser(rs), id);
+        } catch (EmptyResultDataAccessException e) {
             throw new NotFoundException("User not found");
         }
     }
 
     @Override
-    public List<User> getCommonFriends(int id, int otherId) {
+    public List<User> getFriends(int id) {
         getUser(id);
-        getUser(otherId);
-        String sql
-        return null;
+        String sql = "SELECT * FROM friend WHERE user_id=?";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> getUser(rs.getInt("friend_id")), id);
+    }
+
+    @Override
+    public boolean addFriend(int id, int friendId) {
+        getUser(id);
+        getUser(friendId);
+        String sql = "INSERT INTO friend (user_id, friend_id) " +
+                "values(?,?)";
+        return jdbcTemplate.update(sql,
+                id,
+                friendId) > 0;
+    }
+
+    @Override
+    public boolean deleteFriend(int id, int friendId) {
+        String sql = "DELETE FROM friend WHERE user_id =? AND friend_id = ?";
+        return jdbcTemplate.update(sql,id,friendId) > 0;
     }
 
     private User makeUser(ResultSet rs) throws SQLException {
@@ -74,6 +90,6 @@ public class UserDbStorage implements UserStorage{
         String name = rs.getString("name");
         String login = rs.getString("login");
         LocalDate birthday = rs.getDate("birthday").toLocalDate();
-        return new User(id,email,name,login,birthday);
+        return new User(id, email, name, login, birthday);
     }
 }

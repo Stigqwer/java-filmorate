@@ -73,17 +73,16 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     @Override
-    public void addLike(int filmId, int userId) {
+    public boolean addLike(int filmId, int userId) {
         getFilm(filmId);
         String sql = "INSERT INTO \"like\" (film_id,user_id) values (?,?)";
-        jdbcTemplate.update(sql,
+        return jdbcTemplate.update(sql,
                 filmId,
-                userId);
+                userId) > 0;
     }
 
     @Override
     public boolean deleteLike(int filmId, int userId) {
-        getFilm(filmId);
         String sql = "DELETE FROM \"like\" WHERE film_id=? AND user_id=?";
         return jdbcTemplate.update(sql,
                 filmId,

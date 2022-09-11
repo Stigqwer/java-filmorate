@@ -3,10 +3,12 @@ package ru.yandex.practicum.filmorate.controller;
 import org.junit.Test;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.film.Film;
+import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 import ru.yandex.practicum.filmorate.service.film.FilmService;
 import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +17,7 @@ public class FilmControllerTest {
     @Test
     public void testOk() {
         Film film1 = new Film(1, "Терминатор", "Это описание меньше 200 символов",
-                LocalDate.now(), 15);
+                LocalDate.now(), 15, new Mpa(1,"Комедия"),new ArrayList<>());
 
         assertTrue(filmService.isValidationValues(film1));
     }
@@ -23,7 +25,8 @@ public class FilmControllerTest {
     @Test
     public void validationTest() {
         Film film2 = new Film(1, "Терминатор", "Это описание меньше 200 символов",
-                LocalDate.of(1895, 12, 28), 15);
+                LocalDate.of(1895, 12, 28), 15,new Mpa(1,"Комедия")
+                , new ArrayList<>());
 
         assertTrue(filmService.isValidationValues(film2));
 

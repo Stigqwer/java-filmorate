@@ -43,58 +43,30 @@ public class UserService {
         return userStorage.getUser(id);
     }
 
-/*    public void addFriend(int id, int friendId) {
-        User user = getUser(id);
-        User friendUser = getUser(friendId);
-        if (user == null || friendUser == null) {
-            throw new NotFoundException("User not found");
-        } else {
-            user.getFriends().add(friendId);
-            friendUser.getFriends().add(id);
-        }
-    }*/
+    public void addFriend(int id, int friendId) {
+        userStorage.addFriend(id,friendId);
+    }
 
-/*    public void deleteFriend(int id, int friendId) {
-        User user = getUser(id);
-        User friendUser = getUser(friendId);
-        if (user == null || friendUser == null) {
-            throw new NotFoundException("User not found");
-        } else {
-            user.getFriends().remove(id);
-            friendUser.getFriends().remove(friendId);
-        }
-    }*/
+    public void deleteFriend(int id, int friendId) {
+        userStorage.deleteFriend(id,friendId);
+    }
 
- /*   public List<User> getFriends(int id) {
-        User user = getUser(id);
-        if (user == null) {
-            throw new NotFoundException("User not found");
-        } else {
-            List<User> friends = new ArrayList<>();
-            for (Integer idFriends : getUser(id).getFriends()) {
-                friends.add(getUser(idFriends));
-            }
-            return friends;
-        }
-    }*/
+    public List<User> getFriends(int id) {
+        return userStorage.getFriends(id);
+    }
+
 
     public List<User> getCommonFriends(int id, int otherId) {
-        User user = getUser(id);
-        User otherUser = getUser(otherId);
-        if (user == null || otherUser == null) {
-            throw new NotFoundException("User not found");
-        } else {
-            List<User> commonFriends = new ArrayList<>();
-            for (Integer idFriends : getUser(id).getFriends()) {
-                for (Integer otherFriendsId : getUser(otherId).getFriends()) {
-                    if (otherFriendsId.equals(idFriends)) {
-                        commonFriends.add(getUser(otherFriendsId));
-                        break;
-                    }
+        List<User> commonFriends = new ArrayList<>();
+        for (User friend : getFriends(id)) {
+            for (User otherFriend : getFriends(otherId)) {
+                if (otherFriend.equals(friend)) {
+                    commonFriends.add(otherFriend);
+                    break;
                 }
             }
-            return commonFriends;
         }
+        return commonFriends;
     }
 
     public boolean isValidationValues(User user) {
