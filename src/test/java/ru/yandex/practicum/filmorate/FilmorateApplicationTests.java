@@ -132,37 +132,119 @@ class FilmorateApplicationTests {
 
     @Test
     public void testGetPopularFilm(){
+        Film film = new Film(1, "Терминатор", "Это описание меньше 200 символов",
+                LocalDate.of(2020,11,10), 15,
+                new Mpa(1,"G"),new ArrayList<>());
+        filmStorage.create(film);
+        Film film1 = new Film(2, "Терминатор2", "Это описание меньше 200 символов",
+                LocalDate.of(2020,11,10), 15,
+                new Mpa(1,"G"),new ArrayList<>());
+        filmStorage.create(film1);
+        User user = new User(1, "stigqwer@gmail.com", "stigqwer", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user);
+        filmStorage.addLike(2,1);
 
+        assertEquals(filmStorage.getPopularFilm(1).get(0),film1);
     }
 
     @Test
-    public void testDeleteLike(){}
+    public void testDeleteLike(){
+        Film film = new Film(1, "Терминатор", "Это описание меньше 200 символов",
+                LocalDate.of(2020,11,10), 15,
+                new Mpa(1,"G"),new ArrayList<>());
+        filmStorage.create(film);
+        User user = new User(1, "stigqwer@gmail.com", "stigqwer", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user);
+        filmStorage.addLike(1,1);
+
+        assertTrue(filmStorage.deleteLike(1,1));
+    }
 
     @Test
     public void testCreateUser(){
         User user = new User(1, "stigqwer@gmail.com", "stigqwer", "Максим",
                 LocalDate.of(1990, 11, 4));
+
         User user1 = userStorage.create(user);
 
         assertEquals(user1,user);
     }
 
     @Test
-    public void testUpdateUser(){}
+    public void testUpdateUser(){
+        User user = new User(1, "stigqwer@gmail.com", "stigqwer", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user);
+        User user1 = new User(1, "viper@gmail.com", "viper", "Максим",
+                LocalDate.of(1990, 11, 4));
+
+
+        assertEquals(userStorage.update(user1),user1);
+    }
 
     @Test
-    public void testGetUser(){}
+    public void testGetUser(){
+        User user = new User(1, "stigqwer@gmail.com", "stigqwer", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user);
+
+        assertEquals(userStorage.getUser(1),user);
+    }
 
     @Test
-    public void testFindAllUser(){}
+    public void testFindAllUser(){
+        User user = new User(1, "stigqwer@gmail.com", "stigqwer", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user);
+        User user1 = new User(2, "viper@gmail.com", "viper", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user1);
+
+        assertEquals(userStorage.findAll().size(),2);
+    }
 
     @Test
-    public void testAddFriend(){}
+    public void testAddFriend(){
+        User user = new User(1, "stigqwer@gmail.com", "stigqwer", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user);
+        User user1 = new User(2, "viper@gmail.com", "viper", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user1);
+
+        assertTrue(userStorage.addFriend(1,2));
+    }
 
     @Test
-    public void testGetFriends(){}
+    public void testGetFriends(){
+        User user = new User(1, "stigqwer@gmail.com", "stigqwer", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user);
+        User user1 = new User(2, "viper@gmail.com", "viper", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user1);
+        User user2 = new User(3, "1@gmail.com", "1", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user2);
+        userStorage.addFriend(1,2);
+        userStorage.addFriend(1,3);
+
+        assertEquals(userStorage.getFriends(1).size(),2);
+    }
 
     @Test
-    public void testDeleteFriend(){}
+    public void testDeleteFriend(){
+        User user = new User(1, "stigqwer@gmail.com", "stigqwer", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user);
+        User user1 = new User(2, "viper@gmail.com", "viper", "Максим",
+                LocalDate.of(1990, 11, 4));
+        userStorage.create(user1);
+        userStorage.addFriend(1,2);
+
+        assertTrue(userStorage.deleteFriend(1,2));
+    }
 
 }
