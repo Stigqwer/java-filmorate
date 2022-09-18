@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.service.film;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
@@ -13,13 +14,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
-
     private final FilmStorage filmStorage;
     private static final LocalDate MIN_RELEASE_DATE = LocalDate.parse("1895-12-28");
     private int id = 1;
 
     @Autowired
-    public FilmService(FilmStorage filmStorage) {
+    public FilmService(@Qualifier("filmDbStorage") FilmStorage filmStorage) {
         this.filmStorage = filmStorage;
     }
 
@@ -39,39 +39,27 @@ public class FilmService {
     }
 
     public Film getFilm(int id) {
-        Film film = filmStorage.getFilm(id);
-        if (film == null) {
-            throw new NotFoundException("Film not found");
-        } else {
-            return film;
-        }
+        return filmStorage.getFilm(id);
     }
 
-    public void addLike(int id, int userId) {
-        Film film = getFilm(id);
-        if (film == null) {
-            throw new NotFoundException("Film not found");
-        } else if (userId < 1) {
+   public void addLike(int id, int userId) {
+          if (userId < 1) {
             throw new ValidationException("Id cannot be less than 1");
         } else {
-            film.getLike().add(userId);
+            filmStorage.addLike(id,userId);
         }
     }
 
     public void deleteLike(int id, int userId) {
-        Film film = getFilm(id);
-        if (film == null || userId < 1) {
+        if (userId < 1) {
             throw new NotFoundException("Film not found");
         } else {
-            film.getLike().remove(userId);
+            filmStorage.deleteLike(id,userId);
         }
     }
 
     public List<Film> getPopularFilm(int count) {
-        return filmStorage.findAll().stream()
-                .sorted((film1, film2) -> film2.getLike().size() - film1.getLike().size())
-                .limit(count)
-                .collect(Collectors.toList());
+        return filmStorage.getPopularFilm(count);
     }
 
     public boolean isValidationValues(Film film) {
